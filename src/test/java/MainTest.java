@@ -2,6 +2,7 @@ import com.tenis.Main;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -404,29 +405,20 @@ public class MainTest {
     public void testPartidoConTieBreak() {
         int probabilidad = 100; // J1 tiene 100% de probabilidad de ganar cada punto
 
-        // Juegos iguales para forzar el tieBreak
-        int juegosJ1 = 6;
-        int juegosJ2 = 6;
-
-        // cantidad de sets para que funcione correctamente la funcion tieBreak
-        int setJ1 = 0;
-        int setJ2 = 0;
-
-
         // Redirigir la salida estándar
         System.setOut(new PrintStream(outContent));
 
         // Ejecutar el partido
-        String tiebreak = Main.tieBreak(probabilidad, juegosJ1, juegosJ2, setJ1, setJ2);
+        List<String> tiebreak = Main.tieBreak(probabilidad);
 
         // Obtener todas las salidas por consola
-        String resultadoObtenido = tiebreak.trim();
+        String resultadoObtenido = (tiebreak.get(0) + " " + tiebreak.get(1)).trim();
 
         // Normalizar separadores de línea
         resultadoObtenido = normalizeLineSeparators(resultadoObtenido);
 
         // Verificar que el resultado incluya un tie-break
-        String resultadoEsperado = "7 - 6 (0)";
+        String resultadoEsperado = "J1  (0)";
 
         resultadoEsperado = normalizeLineSeparators(resultadoEsperado);
 

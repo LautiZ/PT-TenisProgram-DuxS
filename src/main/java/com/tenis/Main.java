@@ -154,18 +154,24 @@ public class Main {
 
              }
 
+             if (juegoJ1 == 6 && juegoJ2 == 6) {
+                 // Llamar a la funcion tieBreak
+                 List<String> tiebreakString = tieBreak(probabilidad);
+                 if (Objects.equals(tiebreakString.get(0), "J1")) {
+                     juegoJ1 += 1;
+                     setsDeJuegos.add(juegoJ1 + " - " + juegoJ2 + tiebreakString.get(1));
+                 } else {
+                     juegoJ2 += 1;
+                     setsDeJuegos.add(juegoJ1 + " - " + juegoJ2 + tiebreakString.get(1));
+                 }
+             } else {
+                 setsDeJuegos.add(juegoJ1 + " - " + juegoJ2);
+             }
+
              if (juegoJ1 > juegoJ2) {
                  setJ1 += 1;
              } else {
                  setJ2 += 1;
-             }
-
-             if (juegoJ1 == 6 && juegoJ2 == 6) {
-                 // Llamar a la funcion tieBreak
-                 String tiebreakString = tieBreak(probabilidad, juegoJ1, juegoJ2, setJ1, setJ2);
-                 setsDeJuegos.add(tiebreakString);
-             } else {
-                 setsDeJuegos.add(juegoJ1 + " - " + juegoJ2);
              }
 
              marcadorJ1 = 0;
@@ -180,9 +186,11 @@ public class Main {
                  break;
              }
          }
+
          for (String setsDeJuego : setsDeJuegos) {
              System.out.println(setsDeJuego);
          }
+
          if (setJ1 > setJ2) {
              System.out.println("El ganador es " + nombrej1 + " con: " + setJ1 + " sets ganados");
          } else {
@@ -190,12 +198,14 @@ public class Main {
          }
      }
 
-    public static String tieBreak(int probabilidad, int juegoJ1, int juegoJ2, int setJ1, int setJ2) {
+    public static List<String> tieBreak(int probabilidad) {
         int puntosJ1 = 0;
         int puntosJ2 = 0;
 
         int puntoJ1;
         int puntoJ2;
+
+        List<String> tiebreak = new ArrayList<>();
 
         while (puntosJ1 != 7 && puntosJ2 != 7) {
             puntoJ1 = (int) (Math.random() * probabilidad + 1);
@@ -208,11 +218,14 @@ public class Main {
             }
         }
         if (puntosJ1 > puntosJ2) {
-            setJ1 +=1;
-            return (juegoJ1 + 1) + " - " + juegoJ2 + " (" + puntosJ2 + ")";
+
+            tiebreak.add("J1");
+            tiebreak.add(" (" + puntosJ2 + ")");
+            return tiebreak;
         } else {
-            setJ2 += 1;
-            return juegoJ1 + " - " + (juegoJ2 + 1) + " (" + puntosJ1 + ")";
+            tiebreak.add("J2");
+            tiebreak.add(" (" + puntosJ1 + ")");
+            return tiebreak;
         }
     }
 }
